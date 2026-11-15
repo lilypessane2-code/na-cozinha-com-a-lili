@@ -479,10 +479,23 @@ table.med td{padding:8px;border-bottom:1px solid var(--frame2)}
 /* ---- narrow screens ---- */
 @media(max-width:820px){
  .view>.in{padding:30px 20px 26px;margin:10px 6px}
- .toc2-in{flex-direction:column;min-height:0}
- .toc2-photos{flex-direction:row;height:210px;flex:none}
- .toc2-photos img{height:100%;width:33.334%}
- .toc2-main{padding:36px 20px 30px}
+ /* v10.4.8 CONTENTS PHONE FIX (Lili, 2026-11-15: "The contents page on
+    the phone, like my approved picture"): NO re-flow — the contents
+    sections render at their DESKTOP geometry and the whole framed page
+    is scaled down uniformly to the phone width (zoom on the section),
+    like a photograph of the approved page: photos stacked down the
+    left, entries beside them, page number under each name. The old
+    narrow rules that stacked the photos on top are GONE. The .in keeps
+    its desktop padding/margins inside the zoom, and the header keeps
+    its desktop size (its clamp() reads the phone vw otherwise). The
+    plain zoom:.40 line is the fallback for engines without calc()
+    division; the calc() line wins where supported. */
+ main>.view:has(.toc2-in){zoom:.40;zoom:calc((100vw - 12px)/940px)}
+ .view:has(.toc2-in) .toc2-in{padding:40px 46px 34px;margin:16px 13px}
+ .toc2-photos{flex-direction:column;height:auto}
+ .toc2-main{padding:58px 42px 44px}
+ .toc2-cook{font-size:50px}
+ .toc2-cook.pt{font-size:40px}
  .specgrid,.colgrid,.tiles{grid-template-columns:repeat(2,1fr)}
  .famwrap{grid-template-columns:1fr}
  .setgrid{grid-template-columns:1fr}
@@ -495,6 +508,18 @@ table.med td{padding:8px;border-bottom:1px solid var(--frame2)}
  .bdrow .bdbody{grid-column:2}
  .platewrap{grid-template-columns:1fr}
  .platewrap img{margin:0 auto}
+ /* v10.4.9 OVERFLOW FIT-FIX (Lili, 2026-11-15: "adjust those too —
+    show me first"): fit-only, NO design change. Two rows ran off the
+    right edge of the phone; both now wrap INSIDE the framed page.
+    (1) Recipe pages: the "Pairs with" / "Try with" chips — .pairs
+    becomes a centred wrapping flex row and a .pair may break its own
+    long text; the chips keep their base style untouched.
+    (2) Month board: the drink-size .szchips row wraps the same way,
+    left-aligned as it sits today, rows breathing by the chips' own
+    5px margin rhythm. Nothing else moves. */
+ .pairs{display:flex;flex-wrap:wrap;justify-content:center}
+ .pair{white-space:normal}
+ .szchips{display:flex;flex-wrap:wrap;row-gap:5px}
 }
 @media(max-width:560px){
  .grid.food{grid-template-columns:repeat(2,1fr)}
