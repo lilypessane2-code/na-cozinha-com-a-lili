@@ -95,7 +95,25 @@ main .view.act{display:block}
 #capa .in{display:flex;flex-direction:column;min-height:calc(100vh - 92px);min-height:calc(100dvh - 92px)}
 #capa .covera-in{margin-bottom:6px}
 #capa .cova-strip{margin-top:auto}
-@media(max-width:820px){#capa .in{min-height:calc(100vh - 80px);min-height:calc(100dvh - 80px)}}
+@media(max-width:820px){
+/* v10.4.7 COVER TALL-PHONE FIX (Lili, 2026-11-15: "Make the cover fill
+   my phone screen like the approved picture"): the v10.4.4 sheet height
+   held, but the mosaic kept its fixed aspect height at the top while the
+   strip sat at the bottom of the sheet, leaving a wide band of empty
+   paper between them on tall phones (299px at 430x932, her iPhone 14 Pro
+   Max) — and in iOS in-app webviews 100dvh can measure the full screen
+   rather than the visible webview, so the sheet fell short there too.
+   Cover page, small widths only: the sheet height gains the
+   -webkit-fill-available fallback (the visible height in iOS webviews),
+   and the mosaic flexes to fill every pixel between the top of the
+   sheet and the Next-page strip — no gap anywhere inside the frame, the
+   title label stays centred over the mosaic, and the strip keeps its
+   approved cream look at the very bottom of the sheet. Desktop and all
+   other pages untouched. */
+#capa .in{min-height:calc(100vh - 80px);min-height:calc(-webkit-fill-available - 80px);min-height:calc(100dvh - 80px)}
+#capa .covera-in{flex:1 1 auto;aspect-ratio:auto;max-height:none;height:auto;min-height:0;margin-bottom:0}
+#capa .cova-strip{margin-top:0}
+}
 @media (max-width:760px){.cova-label{padding:30px 28px 26px}}
 /* ---- WELCOME (v10.4 — Lili, 2026-11-15: one informational page after
    the cover: what's inside + how to use the book, with cute hand-drawn
